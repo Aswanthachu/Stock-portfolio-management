@@ -1,0 +1,15 @@
+export { default as userRouter } from "./user.js";
+export { default as paymentRoute } from "./paymentRoute.js";
+export { default as ticketRoute } from "./ticketRoute.js";
+export { default as subscriptionRoute } from "./subscriptionRoute.js";
+export { default as stockRouter } from "./stocks.js";
+export { default as couponRoute } from "./couponRoute.js";
+export { default as planRouter } from "./plan.js";
+export { default as investmentVerificationRouter } from "./investmentVerification.js";
+export { default as adminRoute } from "./admin.js";
+export { default as portfolioRouter } from "./portfolio.js";
+export { default as tutorialVideos } from "./tutorialVideos.js";
+export { default as selfCreatedPortfolioRouter } from "./selfCreatedPortfolio.js";
+export { default as notificationRouter } from "./notification.js";
+export { default as pushNotificationRouter } from "./pushNotification.js";
+export { default as assistantRouter } from "./aiassistant.js";

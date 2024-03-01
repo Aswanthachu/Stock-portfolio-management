@@ -1,0 +1,43 @@
+name: Deploy to EC2(Prod-CI/CD)
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master   
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up SSH
+      run: | 
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan ${{ secrets.SERVER }} >> ~/.ssh/known_hosts
+
+    - name: Deploy to EC2
+      env:
+        HOST: ${{ secrets.SERVER }}
+        USER: ubuntu 
+      run: |
+        cd ${{ github.workspace }}
+        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${USER}@${HOST} '
+          cd /home/ubuntu/kks-backend
+          git fetch origin master
+          git pull origin master
+          sudo docker build -t kks-backend .
+          sudo docker stop kks-backend || echo "" ; sudo docker rm kks-backend || echo "kks-backend docker not found !!!"
+          sudo docker run -d --name kks-backend -p 7000:7000 kks-backend
+          sudo docker rmi $(sudo docker images -f "dangling=true" -q) --force || true
+          sudo docker image prune -f
+          sudo systemctl restart nginx
+        '
