@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom/client.js";
 import { Provider } from "react-redux";
 import "tw-elements-react/dist/css/tw-elements-react.min.css";
 import { ToastProvider } from "./components/ToastContext/ToastContext.jsx";
